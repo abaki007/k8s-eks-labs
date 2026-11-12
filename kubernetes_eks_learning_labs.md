@@ -296,7 +296,7 @@ Default single-server K3s uses SQLite, not etcd. Learn etcd's role in Kubernetes
 
 ### Exercises
 
-Use the `hello` release from Topic 2, or substitute the names of an existing approved learning workload:
+These exercises use the `hello` release, deployed from the chart in this repository (`charts/hello`) with the dev values (`environments/dev.yaml`). You can also substitute the names of an existing approved learning workload.
 
 ```bash
 NAMESPACE=k8slearning
@@ -305,6 +305,20 @@ DEPLOYMENT=hello
 CHART=./charts/hello
 VALUES_FILE=environments/dev.yaml
 ```
+
+If `hello` isn't deployed yet, install it from the repository root:
+
+```bash
+kubectl create namespace "$NAMESPACE" --dry-run=client -o yaml | kubectl apply -f -
+
+helm upgrade --install "$RELEASE" "$CHART" \
+  -n "$NAMESPACE" \
+  -f "$VALUES_FILE" \
+  --wait \
+  --timeout 5m
+```
+
+The chart deploys `traefik/whoami`, a small public image that replies with the hostname of the Pod that answered. That makes it easy to see which replica served a request, and that a replaced Pod has a new name. Topic 2 later swaps it for the image you build from `app.py`.
 
 ### 1. Inspect the learning Deployment
 
@@ -323,7 +337,7 @@ kubectl get deployment "$DEPLOYMENT" \
   -o yaml
 ```
 
-If the `hello` application has not been deployed yet, complete Topic 2 first. Do not modify an unrelated or production Deployment for this exercise.
+If the Deployment isn't found, install `hello` with the commands above first. Do not modify an unrelated or production Deployment for this exercise.
 
 ### 2. Inspect its ReplicaSet and Pods
 
@@ -885,8 +899,8 @@ For repeatable builds, pin your approved base image by digest.
 3. Test `/`, `/healthz`, `/readyz` and `/work`.
 4. Publish the image to ECR or your lab registry.
 5. Confirm image architecture matches worker nodes.
-6. Create a learning chart following your existing structure, or use your shared application chart if that is your established pattern.
-7. Configure image, message, Service port, probes and resource requests/limits.
+6. Point the existing `charts/hello` chart at your image: set `image.repository` and `image.tag`, and set `args` to `[]`, since that flag is only for the starter image. Or use your shared application chart if that is your established pattern.
+7. Configure the message, Service port, probes and resource requests/limits. This app's health endpoint is `/healthz`, so set `probes.path` to that; it also has `/readyz` for readiness.
 8. Keep deployment in a dedicated learning namespace.
 
 **Completion check:** the container returns its message, produces structured logs and uses the same chart conventions as your day-to-day work.

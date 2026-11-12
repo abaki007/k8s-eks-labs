@@ -1,0 +1,36 @@
+# Defaults for the hello chart. Override per environment in environments/*.yaml.
+
+replicaCount: 1
+
+# traefik/whoami replies with its pod's hostname, which makes it easy to see
+# which Pod answered and that a replaced Pod has a new name. Lab 2.2 swaps
+# this for the image you build from app.py.
+image:
+  repository: traefik/whoami
+  tag: ""                 # empty means the chart's appVersion
+  pullPolicy: IfNotPresent
+
+# Arguments passed to the container. whoami needs --port to listen on 8080;
+# clear this when switching to an image that doesn't take that flag.
+args:
+  - --port
+  - "8080"
+
+containerPort: 8080
+
+message: Hello from Kubernetes   # shown as "Name:" in the response
+
+service:
+  type: ClusterIP
+  port: 80
+
+probes:
+  path: /health
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 16Mi
+  limits:
+    cpu: 100m
+    memory: 32Mi

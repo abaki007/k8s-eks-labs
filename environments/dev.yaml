@@ -1,0 +1,5 @@
+# Values for the dev learning environment, layered on charts/hello/values.yaml:
+#   helm upgrade --install hello ./charts/hello -n k8slearning -f environments/dev.yaml
+
+replicaCount: 2
+message: Hello from the dev environment

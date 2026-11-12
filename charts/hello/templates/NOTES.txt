@@ -1,0 +1,7 @@
+{{ .Release.Name }} is deployed to namespace {{ .Release.Namespace }} with {{ .Values.replicaCount }} replica(s).
+
+Test it:
+  kubectl -n {{ .Release.Namespace }} port-forward svc/{{ .Release.Name }} 8080:{{ .Values.service.port }}
+  curl http://localhost:8080/
+
+Each response shows the Hostname of the Pod that answered.

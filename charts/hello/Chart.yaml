@@ -1,0 +1,6 @@
+apiVersion: v2
+name: hello
+description: Minimal learning workload for the Kubernetes labs
+type: application
+version: 0.1.0          # the chart's own version; bump when templates or defaults change
+appVersion: "v1.12.0"   # the image version the chart deploys by default
