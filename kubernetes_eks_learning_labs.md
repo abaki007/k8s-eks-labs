@@ -85,16 +85,16 @@ Check access before making a change:
 
 ```bash
 kubectl auth can-i create namespaces
-kubectl get namespace k8slearning
+kubectl get namespace k8slearningdan
 ```
 
 If the first command returns `yes`, create the namespace only when it is absent:
 
 ```bash
-kubectl get namespace k8slearning >/dev/null 2>&1 || \
-  kubectl create namespace k8slearning
+kubectl get namespace k8slearningdan >/dev/null 2>&1 || \
+  kubectl create namespace k8slearningdan
 
-kubectl get namespace k8slearning
+kubectl get namespace k8slearningdan
 ```
 
 If the conditional command fails, use the diagnostics in step 5 rather than assuming that the namespace is absent.
@@ -102,7 +102,7 @@ If the conditional command fails, use the diagnostics in step 5 rather than assu
 ### 2. Set it as the default namespace for the learning context
 
 ```bash
-kubectl config set-context learning-eks --namespace=k8slearning
+kubectl config set-context learning-eks --namespace=k8slearningdan
 kubectl config use-context learning-eks
 
 kubectl config view --minify \
@@ -113,7 +113,7 @@ Alternatively, update whichever context is currently active:
 
 ```bash
 CONTEXT="$(kubectl config current-context)"
-kubectl config set-context "$CONTEXT" --namespace=k8slearning
+kubectl config set-context "$CONTEXT" --namespace=k8slearningdan
 ```
 
 ### 3. Identify CoreDNS, networking components and observability agents
